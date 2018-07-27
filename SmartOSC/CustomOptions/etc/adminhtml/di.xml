@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference
+        for="Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\CustomOptions"
+        type="SmartOSC\CustomOptions\Ui\DataProvider\Catalog\Product\Form\Modifier\CustomOptions"
+    />
+
+    <!--<preference for="Magento\Catalog\Controller\Adminhtml\Product\Save" type="SmartOSC\CustomOptions\Controller\Adminhtml\Product\Save"/>-->
+
+    <type name="SmartOSC\CustomOptions\Model\ImageUploader">
+        <arguments>
+            <argument name="baseTmpPath" xsi:type="string">custom_option/tmp/image</argument>
+            <argument name="basePath" xsi:type="string">custom_option/image</argument>
+            <argument name="allowedExtensions" xsi:type="array">
+                <item name="jpg" xsi:type="string">jpg</item>
+                <item name="jpeg" xsi:type="string">jpeg</item>
+                <item name="gif" xsi:type="string">gif</item>
+                <item name="png" xsi:type="string">png</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="smartosc" translate="label" sortOrder="10">
+            <label>SmarOSC</label>
+        </tab>
+        <section id="smartosc_custom" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Custom Option Config</label>
+            <tab>smartosc</tab>
+            <resource>SmartOSC_CustomOption::customoption_config</resource>
+            <group id="options" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>SmartOSC Custom Image Configuration</label>
+                <field id="upload_max_size" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Maximum upload file size (Mb)</label>
+                </field>
+                <field id="img_width" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Image Width (px)</label>
+                </field>
+                <field id="img_height" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Image Height (px)</label>
+                </field>
+
+                <field id="custom_file_upload" translate="label" type="image" sortOrder="6" showInDefault="1" showInWebsite="1" >
+                    <label>Upload custom file</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Image</backend_model>
+                    <upload_dir config="system" scope_info="1">test</upload_dir>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
