@@ -10,6 +10,7 @@ namespace SmartOSC\CustomOptions\Model\Product;
 
 use SmartOSC\CustomOptions\Api\Data\ProductCustomOptionInterface;
 // use SmartOSC\CustomOptions\Model\ResourceModel\Options\CollectionFactory ;
+use Magento\Framework\Exception\LocalizedException;
 
 class Option extends \Magento\Catalog\Model\Product\Option implements ProductCustomOptionInterface
 {
@@ -69,26 +70,31 @@ class Option extends \Magento\Catalog\Model\Product\Option implements ProductCus
         }
         
         $optionGroupsToTypes = [
-            self::OPTION_TYPE_FIELD => self::OPTION_GROUP_TEXT,
-            self::OPTION_TYPE_AREA => self::OPTION_GROUP_TEXT,
-            self::OPTION_TYPE_FILE => self::OPTION_GROUP_FILE,
-            self::OPTION_TYPE_DROP_DOWN => self::OPTION_GROUP_SELECT,
-            self::OPTION_TYPE_RADIO => self::OPTION_GROUP_SELECT,
-            self::OPTION_TYPE_CHECKBOX => self::OPTION_GROUP_SELECT,
-            self::OPTION_TYPE_MULTIPLE => self::OPTION_GROUP_SELECT,
+            parent::OPTION_TYPE_FIELD => parent::OPTION_GROUP_TEXT,
+            parent::OPTION_TYPE_AREA => parent::OPTION_GROUP_TEXT,
+            parent::OPTION_TYPE_FILE => parent::OPTION_GROUP_FILE,
+            parent::OPTION_TYPE_DROP_DOWN => parent::OPTION_GROUP_SELECT,
+            parent::OPTION_TYPE_RADIO => parent::OPTION_GROUP_SELECT,
+            parent::OPTION_TYPE_CHECKBOX => parent::OPTION_GROUP_SELECT,
+            parent::OPTION_TYPE_MULTIPLE => parent::OPTION_GROUP_SELECT,
             // custom options
-            self::OPTION_TYPE_THUMB_GALLERY => self::OPTION_GROUP_SELECT,
-            self::OPTION_TYPE_THUMB_GALLERY_POPUP => self::OPTION_GROUP_SELECT,
-            self::OPTION_TYPE_THUMB_GALLERY_MULTI_SELECT => self::OPTION_GROUP_SELECT,
+            self::OPTION_TYPE_THUMB_GALLERY => parent::OPTION_GROUP_SELECT,
+            self::OPTION_TYPE_THUMB_GALLERY_POPUP => parent::OPTION_GROUP_SELECT,
+            self::OPTION_TYPE_THUMB_GALLERY_MULTI_SELECT => parent::OPTION_GROUP_SELECT,
             // end custom options
-            self::OPTION_TYPE_DATE => self::OPTION_GROUP_DATE,
-            self::OPTION_TYPE_DATE_TIME => self::OPTION_GROUP_DATE,
-            self::OPTION_TYPE_TIME => self::OPTION_GROUP_DATE,
+            parent::OPTION_TYPE_DATE => parent::OPTION_GROUP_DATE,
+            parent::OPTION_TYPE_DATE_TIME => parent::OPTION_GROUP_DATE,
+            parent::OPTION_TYPE_TIME => parent::OPTION_GROUP_DATE,
         ];
         
         return isset($optionGroupsToTypes[$type]) ? $optionGroupsToTypes[$type] : '';
     }
     
+    /**
+     * @param $optionId
+     *
+     * @return array
+     */
     public function getExtraCustomOptions($optionId)
     {
         // $optionsCollectionFactory = $this->optionsCollectionFactory->create();
@@ -104,8 +110,7 @@ class Option extends \Magento\Catalog\Model\Product\Option implements ProductCus
     
         return $aryOptions;
     }
-    
-    
+
     // /**
     //  * Get option thumb color
     //  *
