@@ -13,10 +13,11 @@
     </div>
     <div class="content" data-role="content" aria-labelledby="block-discount-heading">
         <form id="discount-coupon-form"
-              action="<?= /* @escapeNotVerified */ $block->getUrl('checkout/cart/couponPost') ?>"
+              action="<?= /* @escapeNotVerified */ $block->getUrl('multiCoupon/cart/couponPost') ?>"
               method="post"
-              data-mage-init='{"discountCode":{"couponCodeSelector": "#coupon_code",
+              data-mage-init='{"discountCodeMultiCoupon":{"couponCodeSelector": "#coupon_code",
                                                "removeCouponSelector": "#remove-coupon",
+                                               "removeCouponCodeSelector": "#remove_coupon_code",
                                                "applyButton": "button.action.apply",
                                                "cancelButton": "button.action.cancel"}}'>
             <div class="fieldset coupon<?= strlen($block->getCouponCode()) ? ' applied' : '' ?>">
@@ -28,17 +29,6 @@
                     </div>
                 </div>
                 <div class="actions-toolbar">
-<!--                    --><?php //if (!strlen($block->getCouponCode())): ?>
-<!--                        <div class="primary">-->
-<!--                            <button class="action apply primary" type="button" value="--><?//= /* @escapeNotVerified */ __('Apply Discount') ?><!--">-->
-<!--                                <span>--><?//= /* @escapeNotVerified */ __('Apply Discount') ?><!--</span>-->
-<!--                            </button>-->
-<!--                        </div>-->
-<!--                    --><?php //else: ?>
-<!--                        <div class="primary">-->
-<!--                            <button  type="button" class="action cancel primary" value="--><?//= /* @escapeNotVerified */ __('Cancel Coupon') ?><!--"><span>--><?//= /* @escapeNotVerified */ __('Cancel Coupon') ?><!--</span></button>-->
-<!--                        </div>-->
-<!--                    --><?php //endif; ?>
                     <div class="primary">
                         <button class="action apply primary" type="button" value="<?= /* @escapeNotVerified */ __('Apply Discount') ?>">
                             <span><?= /* @escapeNotVerified */ __('Apply Discount') ?></span>
@@ -49,16 +39,19 @@
 
             <?php if (strlen($block->getCouponCode())) : ?>
                 <div class="coupon-list">
+                    <input type="hidden" name="remove_coupon_code" id="remove_coupon_code" value="" />
                     <div class="title" data-role="title">
-                        <strong id="block-discount-heading" role="heading" aria-level="2"><?= /* @escapeNotVerified */ __('Coupons List') ?></strong>
+                        <strong role="heading" aria-level="2"><?= /* @escapeNotVerified */ __('Coupons List') ?></strong>
                     </div>
                     <ul>
-                        <li>
-                            <?php echo $block->escapeHtml($block->getCouponCode()) ?>
-                            <button  type="button" class="action cancel" value="<?= /* @escapeNotVerified */ __('Cancel Coupon') ?>">
-                                <span><?= /* @escapeNotVerified */ __('Cancel Coupon') ?></span>
-                            </button>
-                        </li>
+                        <?php foreach (explode(',', $block->getCouponCode()) as $coupon) : ?>
+                            <li>
+                                <span class="rm-coupon-cd"><?php echo $block->escapeHtml($coupon) ?></span>
+                                <button  type="button" class="action cancel" value="<?= /* @escapeNotVerified */ __('Cancel Coupon') ?>">
+                                    <span><?= /* @escapeNotVerified */ __('Cancel Coupon') ?></span>
+                                </button>
+                            </li>
+                        <?php endforeach; ?>
                     </ul>
                 </div>
             <?php endif ?>

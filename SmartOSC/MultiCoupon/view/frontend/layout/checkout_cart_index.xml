@@ -1,16 +1,10 @@
 <?xml version="1.0"?>
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="checkout_cart_item_renderers"/>
     <body>
-        <!--<referenceBlock name="checkout.cart.coupon">-->
-            <!--<arguments>-->
-                <!--<argument name="template" xsi:type="string">SmartOSC_MultiCoupon::cart/coupon.phtml</argument>-->
-            <!--</arguments>-->
-            <!---->
-        <!--</referenceBlock>-->
-        <referenceBlock name="checkout.cart.coupon">
-            <action method="setTemplate">
-                <argument name="template" xsi:type="string">SmartOSC_MultiCoupon::cart/coupon.phtml</argument>
-            </action>
-        </referenceBlock>
+        <referenceBlock name="checkout.cart.coupon" remove="true"/>
+        <referenceContainer name="cart.discount">
+            <block class="SmartOSC\MultiCoupon\Block\Coupon" name="checkout.cart.multi_coupon" as="coupon" template="SmartOSC_MultiCoupon::cart/coupon.phtml"/>
+        </referenceContainer>
     </body>
 </page>

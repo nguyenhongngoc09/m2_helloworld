@@ -1,0 +1,102 @@
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+define([
+    'jquery',
+    'ko',
+    'uiComponent',
+    'Magento_Checkout/js/model/quote',
+    'SmartOSC_MultiCoupon/js/action/set-coupon-code',
+    'SmartOSC_MultiCoupon/js/action/cancel-coupon',
+    'Magento_SalesRule/js/model/payment/discount-messages',
+    'mage/translate',
+], function ($, ko, Component, quote, setCouponCodeAction, cancelCouponAction, messageContainer, $t) {
+    'use strict';
+
+    var totals = quote.getTotals(),
+        couponCode = ko.observable(null),
+        couponCodePost = ko.observable(null),
+        isApplied;
+
+    if (totals()) {
+        couponCode(totals()['coupon_code']);
+    }
+    isApplied = ko.observable(couponCode() != null);
+
+    return Component.extend({
+        defaults: {
+            template: 'SmartOSC_MultiCoupon/payment/discount'
+        },
+        couponCode: couponCode,
+        couponCodePost: couponCodePost,
+
+        /**
+         * Applied flag
+         */
+        isApplied: isApplied,
+
+        /**
+         * Coupon code application procedure
+         */
+        apply: function () {
+            if (this.validate()) {
+                var aryCoupon = couponCode().split(',');
+
+                if (aryCoupon.indexOf(couponCodePost()) !== -1) {
+                    messageContainer.addErrorMessage({
+                        'message': $t('This coupon is exist')
+                    });
+                    return false;
+                } else {
+                    aryCoupon.push(couponCodePost())
+                }
+                var couponList = aryCoupon.join();
+                setCouponCodeAction(couponList, isApplied).then(function(res) {
+                    console.log('res', res);
+                });
+                couponCodePost('');
+                couponCode(couponList);
+            }
+        },
+
+        removeCoupon: function() {
+
+        },
+
+        /**
+         * Cancel using coupon
+         */
+        cancel: function () {
+            var removeCouponCode = this;
+
+            var aryCoupon = couponCode().split(',');
+            var idxCoupon = aryCoupon.indexOf(removeCouponCode);
+            aryCoupon.splice(idxCoupon, 1);
+
+            if (aryCoupon.length > 0) {
+                var couponList = aryCoupon.join();
+                setCouponCodeAction(couponList, isApplied).then(function(res) {
+                    console.log('res', res);
+                });
+                couponCodePost('');
+                couponCode(couponList);
+            } else {
+                // couponCode('');
+                cancelCouponAction(removeCouponCode, isApplied);
+            }
+        },
+
+        /**
+         * Coupon form validation
+         *
+         * @returns {Boolean}
+         */
+        validate: function () {
+            var form = '#discount-form';
+
+            return $(form).validation() && $(form).validation('isValid');
+        }
+    });
+});

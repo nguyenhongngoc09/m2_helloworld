@@ -1,0 +1,63 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<div class="payment-option _collapsible opc-payment-additional discount-code"
+     data-bind="mageInit: {'collapsible':{'openedState': '_active'}}">
+    <div class="payment-option-title field choice" data-role="title">
+        <span class="action action-toggle" id="block-discount-heading" role="heading" aria-level="2">
+            <!-- ko i18n: 'Apply Discount Code'--><!-- /ko -->
+        </span>
+    </div>
+    <div class="payment-option-content" data-role="content">
+        <!-- ko foreach: getRegion('messages') -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
+        <!--/ko-->
+        <form class="form form-discount" id="discount-form">
+            <div class="payment-option-inner">
+                <div class="field">
+                    <label class="label" for="discount-code">
+                        <span data-bind="i18n: 'Enter discount code'"></span>
+                    </label>
+                    <div class="control">
+                        <input class="input-text"
+                               type="text"
+                               id="discount-code"
+                               name="discount_code"
+                               data-validate="{'required-entry':true}"
+                               data-bind="value: couponCode, attr:{placeholder: $t('Enter discount code')} " />
+                    </div>
+                </div>
+            </div>
+            <div class="actions-toolbar">
+                <div class="primary">
+                    <button class="action action-apply" type="submit" data-bind="'value': $t('Apply Discount'), click: apply">
+                        <span><!-- ko i18n: 'Apply Discount'--><!-- /ko --></span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- ko if : couponCodes() != null && !isLoading() -->
+            <div class="coupon-list">
+                <div class="title" data-role="title">
+                    <strong role="heading" aria-level="2" data-bind="text: $t('Coupon List')"></strong>
+                </div>
+                <ul>
+                    <!-- ko foreach: { data: couponCodes().split(','), as: 'code' }  -->
+                    <!-- ko if : code.length > 0 -->
+                    <li>
+                        <span class="rm-coupon-code" data-bind="text: code"></span>
+                        <button type="button" class="action cancel" data-bind="click: $parent.removeCoupon">
+                            <span data-bind="text: $t('Cancel Coupon')"></span>
+                        </button>
+                    </li>
+                    <!-- /ko -->
+                    <!-- /ko -->
+                </ul>
+            </div>
+            <!-- /ko -->
+        </form>
+    </div>
+</div>
